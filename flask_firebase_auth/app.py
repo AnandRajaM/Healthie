@@ -48,7 +48,7 @@ def login():
                 session['username'] = username
                 return redirect(url_for('profile'))
         return 'Invalid username or password'
-    return render_template('loginpage.html')
+    return render_template('loginpage2.html')
 
 @app.route('/profile')
 def profile():
