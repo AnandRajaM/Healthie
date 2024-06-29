@@ -9,20 +9,22 @@ from pywa.types import Message, CallbackButton, Button, ButtonUrl
 from pywa.types import SectionList, Section, SectionRow, CallbackSelection
 
 
-
+# --------------------------------------------------------------
+# Import the services
+# --------------------------------------------------------------
 from services import gemini_service
 from services import firestore_service
 from services import serpapi_service
 
-global bot_status 
-bot_status = "idle"
-
 
 # --------------------------------------------------------------
-# Initialize the Flask app
+# Initialize the Flask app and set initial bot state
 # --------------------------------------------------------------
 flask_app = Flask(__name__)
 flask_app.config["DEBUG"] = True
+
+global bot_status 
+bot_status = "idle"
 # --------------------------------------------------------------
 # Load environment variables
 # --------------------------------------------------------------
@@ -50,14 +52,14 @@ wa = WhatsApp(
     app_id=APP_ID,
     app_secret=f"{APP_SECRET}",
 )
-print("Success")
+
 
 
 # --------------------------------------------------------------
 # Define the data class to store user data and message
 # --------------------------------------------------------------
 
-@dataclass(frozen=True, slots=True) # Do not use kw_only=True
+@dataclass(frozen=True, slots=True)
 class UserData(CallbackData): # Subclass CallbackData
     id: int
     name: str | None
@@ -69,13 +71,13 @@ class UserData(CallbackData): # Subclass CallbackData
 
 @wa.on_message()
 def message_handler(_: WhatsApp, msg: Message):
-    if msg.text.lower() in ["hi", "hello", "hey","go back","back"]:
+    if msg.text.lower() in ["hi", "hello", "hey","go back","back","menu","home"]:
         global bot_status
         bot_status = "idle"
         wa.send_image(
             to=msg.from_user.wa_id,
-            image=r"Healthie Whatsapp Bot\mascot.png",
-            caption="Hello! 😊 Welcome to Healthie, your personal healthcare assistant. How can I assist you today? Whether you need medication reminders, want to schedule an appointment, or have any healthcare-related questions, I'm here to help! 🌟",
+            image=r"Healthie Whatsapp Bot\images\mascot.png",
+            caption="Hello! 😊 Welcome to *Healthie*, your personal healthcare assistant. How can I assist you today? Whether you need medication reminders, want to schedule an appointment, or have any healthcare-related questions, I'm here to help! 🌟",
             footer="Powered by a-squared⚡",
             buttons=[
                 Button(
@@ -107,7 +109,7 @@ def message_handler(_: WhatsApp, msg: Message):
         )
         wa.send_text(
             to=msg.from_user.wa_id,
-            text="If you missed any symptoms or wish to know more you may type your concerns below. \n \n To return to main menu type _*back*_ "
+            text="If you missed any symptoms or wish to know more you may type your concerns below. \n \n To return to main menu type _*menu*_ "
         )
     
     elif bot_status == "Mental Health Support":
@@ -134,7 +136,7 @@ def message_handler(_: WhatsApp, msg: Message):
             )
         wa.send_text(
             to=msg.from_user.wa_id,
-            text="To return to main menu type _*back*_ "
+            text="To return to main menu type _*menu*_ "
         )
 
     elif bot_status == "Reminders":
@@ -162,8 +164,38 @@ def message_handler(_: WhatsApp, msg: Message):
                     to=msg.from_user.wa_id,
                     text="Oops! Something went wrong. Please try again later."
                 )
+    
+    elif bot_status == "Schedule":
+        global schedule_time
+        if not schedule_time:
+            global doctor_name
+            doctor_name = msg.text
+            schedule_time = True
+            wa.send_text(
+                to=msg.from_user.wa_id,
+                text="Please enter the date and time you would like to schedule the appointment for. For example, type 'Monday, 10:00 AM' or 'Friday, 2:00 PM'."
+            )
+        
+        else:
+            global appointment_time
+            appointment_time = msg.text
+            if firestore_service.add_appointment(msg.from_user.wa_id,doctor_name,appointment_time):
+                wa.send_text(
+                    to=msg.from_user.wa_id,
+                    text=f"Appointment scheduled with {doctor_name} at {appointment_time}."
+                )
+            else:
+                wa.send_text(
+                    to=msg.from_user.wa_id,
+                    text="Oops! Something went wrong. Please try again later."
+                )
 
 
+
+
+# --------------------------------------------------------------
+# Define the callback button handler
+# --------------------------------------------------------------
 
 @wa.on_callback_button(factory=UserData) # Use the factory parameter to convert the callback data
 def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocomplete
@@ -216,7 +248,7 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
             bot_status = btn.data.name
             client.send_text(
                 to=btn.from_user.wa_id,
-                text="Create New Reminder - Set up a new reminder for your medications or appointments. \n \n Check Existing Reminders - View and manage your current reminders.📅 \n \n To go return to main menu type *back* or *go back*",
+                text="Create New Reminder - Set up a new reminder for your medications or appointments. \n \n Check Existing Reminders - View and manage your current reminders.📅 \n \n To return to main menu type _*menu*_",
                 buttons=[
                     Button(
                         title="New Reminder",
@@ -225,6 +257,22 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
                     Button(
                         title="Existing Reminders",
                         callback_data=UserData(id=5, name='Check', message=""),
+                    ),
+                ]
+            )
+        if btn.data.id == 1:
+            bot_status = btn.data.name
+            client.send_text(
+                to=btn.from_user.wa_id,
+                text="Create New Appointment - Schedule an appointment with a doctor. \n \n Check Existing Appointments - View and manage your current appointments. 📅 \n \n To return to main menu type _*menu*_",
+                buttons=[
+                    Button(
+                        title="New Appointment",
+                        callback_data=UserData(id=6, name='Create', message=""),
+                    ),
+                    Button(
+                        title="Check Appointments",
+                        callback_data=UserData(id=7, name='Check', message=""),
                     ),
                 ]
             )
@@ -242,54 +290,85 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
             rtext = ""
             for i, reminder in enumerate(reminders, start=1):
                 rtext += f"{i}. {reminder['medication']} - {reminder['time']} \n"
-
+                rtext += f" \n \n To return to main menu type _*menu*_"
             client.send_text(
                 to=btn.from_user.wa_id,
                 text=rtext,
             )
+    
+    if bot_status == "Schedule":
+        if btn.data.id == 6:
+            global schedule_time
+            schedule_time = False
+            client.send_text(
+                to=btn.from_user.wa_id,
+                text="Please enter the name of the doctor to schedule an appointment with."
+            )
+        if btn.data.id == 7:
+            appointments = firestore_service.get_appointments(btn.from_user.wa_id)
+            atext = ""
+            for i, appointment in enumerate(appointments, start=1):
+                atext += f"{i}. {appointment['doctor']} - {appointment['time']} \n"
+                atext += f" \n \n To return to main menu type _*menu*_"
+            client.send_text(
+                to=btn.from_user.wa_id,
+                text=atext,
+            )
         
 
    
-
+# --------------------------------------------------------------
+# Define the callback selection handler
+# --------------------------------------------------------------
 
 @wa.on_callback_selection(factory=UserData)
 def on_user_data(_: WhatsApp, sel: CallbackSelection[UserData]):
     if sel.data.name == 'chat':
         global bot_status
         bot_status = "Chat"
-        wa.send_text(
+        wa.send_image(
             to=sel.from_user.wa_id,
-            text="You are now chatting with Healthie. Feel free to ask any health-related questions or share your concerns. I'm here to help! 🩺 \n \n To return to main menu type _*back*_ "
+            image=r"Healthie Whatsapp Bot\images\talking.jpg",
+            caption="You are now chatting with Healthie. Feel free to ask any health-related questions or share your concerns. I'm here to help! 🩺 \n \n To return to main menu type _*menu*_"
         )
-        
     if sel.data.name == 'symptom_checker':
         
         bot_status = "Symptom Checker"
-        wa.send_text(
+        wa.send_image(
             to=sel.from_user.wa_id,
-            text="You are now using the Healthie Symptom Checker. Please enter the symptoms you are experiencing, separated by commas. For example, type 'fever, cough, headache'. \n \n To return to main menu type _*back*_ "
+            image=r"Healthie Whatsapp Bot\images\checker.png",
+            caption="You are now using the Healthie Symptom Checker. Please enter the symptoms you are experiencing, separated by commas. For example, type 'fever, cough, headache'. \n \n To return to main menu type _*menu*_ "
         )
+        
 
     if sel.data.name == 'mental_health_support':
         bot_status = "Mental Health Support"
-        wa.send_text(
+        wa.send_image(
             to=sel.from_user.wa_id,
-            text="You are now chatting with Healthie's mental health support. Feel free to share your thoughts, feelings, or concerns. I'm here to listen and provide support. 🌟 \n \n To return to main menu type _*back*_ "
+            image=r"Healthie Whatsapp Bot\images\mental_health.png",
+            caption="You are now chatting with Healthie's mental health support. Feel free to share your thoughts, feelings, or concerns. I'm here to listen and provide support. 🌟 \n \n To return to main menu type _*menu*_ "
         )
+        
     
     if sel.data.name == 'nearby_hospitals':
         bot_status = "Nearby Hospitals"
-        wa.send_text(
+        wa.send_image(
             to=sel.from_user.wa_id,
-            text="Please share your location to find nearby hospitals. Example: 'Delhi'. \n \n To return to main menu type _*back*_ "
+            image=r"Healthie Whatsapp Bot\images\city.jpg",
+            caption="Please share your location to find nearby hospitals. Example: 'Delhi'. \n \n To return to main menu type _*menu*_ "
         )
     
+    
     if sel.data.name == 'pdf_generation':
-        bot_status = "PDF Generation"
+        bot_status = "idle"
+        wa.send_document(
+            to=sel.from_user.wa_id,
+            document=r"Healthie Whatsapp Bot\pdfs\Sample_report.pdf",
+            caption="Here is a sample PDF generated by Healthie. 📄"
+        )
         wa.send_text(
             to=sel.from_user.wa_id,
-            text="You are now using the Healthie PDF Generation feature. Please upload the image you would like to convert to a PDF. \n \n To return to main menu type _*back*_ "
+            text="To return to main menu type _*menu*_ "
         )
-
 
 flask_app.run(port=8000)
