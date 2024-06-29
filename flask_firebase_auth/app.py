@@ -32,7 +32,7 @@ def signup():
         db.collection("users").document().set(data)
         
         return redirect(url_for('login'))
-    return render_template('signup.html')
+    return render_template('loginpage2.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -48,7 +48,7 @@ def login():
                 session['username'] = username
                 return redirect(url_for('profile'))
         return 'Invalid username or password'
-    return render_template('login.html')
+    return render_template('loginpage.html')
 
 @app.route('/profile')
 def profile():

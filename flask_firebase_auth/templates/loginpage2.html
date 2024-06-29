@@ -1,15 +1,40 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Healthie Authenticate </title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
+    <link rel="shortcut icon" href="static/favicons/redcliff-logo.png" type="image/x-icon">
+    <link href="{{url_for('static',filename='css/own.css')}}" rel="stylesheet">
+
     <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
-    
-    <script src="script.js" defer></script>
+    <title>Healthie</title>
 </head>
 <body>
+<header class="text-gray-600 body-font">
+    <div class=" mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <img src="static/favicons/redcliff-logo.png" class="w-10 h-10" alt="">
+        <span class="ml-3 text-xl">Healthie</span>
+        </a>
+        <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+        <a class="mr-5 hover:text-gray-900">Home</a>
+        <a class="mr-5 hover:text-gray-900">About</a>
+        <a class="mr-5 hover:text-gray-900">How it Works</a>
+        </nav>
+        <!-- <a href="https://reportify-vert.vercel.app/"> -->
+        <a href="/signup">
+        <button class="inline-flex items-center bg-[#064755] text-[#40ee97] border-0 focus:outline-none px-7 py-3 rounded-2xl text-base mt-4 md:mt-0">Sign Up
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+        </button>
+        </a>
+    </div>
+    </header>
     
     <div class="body">
         <div class="container" id="container">
@@ -83,5 +108,6 @@
       });
 
     </script>
+    
 </body>
 </html>
