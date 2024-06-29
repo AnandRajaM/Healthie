@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static',filename='css/output.css')}}" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='images/logo-removed.png')}}">
+    <link href="{{url_for('static',filename='css/own.css')}}" rel="stylesheet">
+    <title>HealthLink</title>
+    <style>
+
+      .center-block {
+        margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+      }
+
+      #chat-container {
+        border: 1px solid #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        align-items: flex-start;
+      }
+        .user-message {
+           font-family: "varela round" !important;
+        text-align: right;
+
+    }
+
+    .bot-message {
+        font-family: "varela round" !important;
+        text-align: left;
+        color: black; /* Set the color for bot messages */
+    }
+
+        #chat-log {
+            height: 25rem !important;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        #user-input { 
+          padding-top: 10px !important;
+          padding-bottom: 10px !important;
+          font-family: 'varela round' !important;
+            width: calc(100% - 20px);
+            color: black;
+            padding: 8px;
+            margin-top: 10px;
+            box-shadow: rgba(107, 195, 139, 0.346) 0px 4px 29px 0px;
+            border-radius: 10px;
+            outline: #4ade80;
+            box-sizing: border-box;
+        }
+
+        button {
+          margin-left: auto;
+          margin-right: auto;
+            padding: 8px 16px;
+            margin-top: 10px;
+            background-color: #4ade80;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4ade80;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <header class="text-gray-600 body-font bg-[E6F7EC]">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+
+            <span class="ml-3 text-xl">Healthie</span>
+          </a>
+          <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+
+          </nav>
+
+          <a href = "{{ url_for('home') }}">
+
+            <button class="px-[12px] py-[7px] inline-flex items-center text-white bg-green-500 border-0 py-1 px-3 focus:outline-none hover:bg-green-700 rounded-[10px] text-base mt-4 md:mt-0">Home
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </a>
+
+        </div>
+      </header>
+
+
+        <div class="center-block">
+          <main id="">
+                <h1 class="mx-auto mt-20 text-4xl text-center" style="font-family: 'varela round';">Welcome to your Personal Chatbot</h1>
+              <br><br>
+              <!--             background: white;
+            /* max-width: 50rem; */
+            width: 50rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            
+            display: flex;
+            flex-direction: column;
+             -->
+              <div class="-mt-1 w-[20rem] mx-auto p-[10px] rounded-[10px]  md:w-[50rem] lg:w-[65rem] flex flex-col " id="chat-container">
+                <div class="text-left mt-3 ml-3 text-sm md:text-[1.1rem] md:leading-8 bg-gray-200 px-3 py-1 rounded-full">
+                  <p style="font-family: 'varela round' !important;">HappyLink: How are you Feeling Today ?</p>
+                </div>
+                  <div class="w-[20rem] md:w-[50rem] lg:w-[65rem]" id="chat-log"></div>
+
+                  <input class="mt-3 ml-[0.625rem]" type="text" id="user-input" placeholder="Type your message...">
+
+                  <div class="mx-auto mt-3">
+                    <button onclick="sendMessage()" class = "p">Send Message</button>
+                  </div>
+              </div>
+          </main>
+        </div>
+
+
+
+          <script>
+            function sendMessage() {
+                var user_input = document.getElementById('user-input').value;
+                document.getElementById('user-input').value = "";
+        
+                var chat_log = document.getElementById('chat-log');
+                chat_log.innerHTML += '<div class = "flex w-[62.8rem] flex-row-reverse  chat-container"><div class = "text-right mt-3 text-sm md:text-[1.1rem] md:leading-8 bg-green-400 px-3 py-1 rounded-full"><p class="text-black user-message">You: ' + user_input + '</p>';
+        
+                fetch('/get_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'user_input=' + encodeURIComponent(user_input),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    chat_log.innerHTML += '<div class = "flex w-[25rem] flex-col chat-container"><div class = "text-left mt-3 text-sm md:text-[1.1rem] md:leading-7 bg-gray-200 px-3 py-2 rounded-xl"><p !important;" class="ml-1 bot-message">HappyLink: ' + data.response + '</p></div></div>';
+                });
+            }
+        </script>
+        
+</body>
+</html>
+
+<!-- <script>
+    function sendMessage() {
+        var user_input = document.getElementById('user-input').value;
+        document.getElementById('user-input').value = "";
+    
+        var chat_log = document.getElementById('chat-log');
+        chat_log.innerHTML += '<div class="bg-gray-200 px-3 py-2 rounded-full"><p class="bot-message mt-3 mb-3" style="font-family: \'varela round\' !important;">Mantis: ' + user_input + '</p></div>';
+    
+        fetch('/get_response', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'user_input=' + encodeURIComponent(user_input),
+        })
+        .then(response => response.json())
+        .then(data => {
+            chat_log.innerHTML += '<div class="bg-gray-200 px-3 py-2 rounded-full"><p class="bot-message mt-3 mb-3" style="font-family: \'varela round\' !important;">Mantis: ' + data.response + '</p></div>';
+        });
+    }
+</script>
+ -->

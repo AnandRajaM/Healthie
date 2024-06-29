@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/own.css') }}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VHelp</title>
+    <style>
+        /* Navbar styles */
+        .navbar {
+            background-color: #E6F7EC;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .navigation a {
+            color: #333;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .navigation a:hover {
+            color: #4CAF50;
+        }
+
+        .action-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Form styles */
+        .form-container {
+            font-family: 'Varela Round';
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 65rem;
+            margin: 0 auto;
+        }
+
+        .form-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #4ade80;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        .form-container button[type="submit"] {
+            background-color: #4ade80;
+            color: black;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button[type="submit"]:hover {
+            background-color: #22c55e;
+        }
+
+        .hospital-info {
+            list-style: none;
+            padding: 0;
+        }
+
+        .hospital-info li {
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hospital-info h2 {
+            margin-top: 0;
+        }
+
+        .hospital-info img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .hospital-info a {
+            color: #22c55e;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .hospital-info .view-photo {
+            color: #22c55e;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            border: 1px solid #4ade80;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-[#E6F7EC]">
+    <header class="text-gray-600 bg-[#E6F7EC]">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <span class="ml-3 text-xl">Healthie</span>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <!-- Uncomment and modify the following links as needed -->
+
+            </nav>
+
+            <a href="{{url_for('home')}}">
+                <button class="px-[12px] py-[7px] inline-flex items-center text-white bg-green-500 border-0 py-1 px-3 focus:outline-none hover:bg-green-700 rounded-[10px] text-base mt-4 md:mt-0">Home
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </header>
+
+    <div style="margin-top: 3rem;" class="form-container">
+        <form action="/vhelp" method="post">
+            <h1><label for="location">Enter your location:</label></h1>
+            <p><input type="text" id="location" name="location" required placeholder="Enter the Location"></p>
+            <button type="submit">Search</button>
+            <br>
+        </form>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        {% if hospitals %}
+        <div class="grid-cols-2">
+            <ul class="hospital-info">
+                {% for hospital in hospitals %}
+                    <li>
+                        <div>
+                            <p><strong>Name:</strong> {{ hospital.title }}</p>
+                        </div>
+                        <div>
+                            <p><strong>Address:</strong> {{ hospital.address }}</p>
+                        </div>
+                        <div>
+                            <p><strong>Contact No:</strong> {{ hospital.phone }}</p>
+                        </div>
+                        <div>
+                            <p><strong>Website:</strong> <a href="{{ hospital.website }}">{{ hospital.website }}</a></p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
