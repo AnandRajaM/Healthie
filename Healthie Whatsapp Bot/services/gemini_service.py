@@ -4,8 +4,12 @@ import google.generativeai as genai
 genai.configure(api_key = "")
 model = genai.GenerativeModel('gemini-pro')
 
-conversation_history = []
 
+# --------------------------------------------------------------
+# Create a function that generates a response based on users medical questions
+# --------------------------------------------------------------
+
+conversation_history = []
 def generate_response(user_message):  
     conversation_history.append(f"Patient: {user_message}")
     if len(conversation_history) > 10:  # Limit the history to the last 10 messages
@@ -25,7 +29,9 @@ def generate_response(user_message):
     
     return chatbot_response
 
-
+# --------------------------------------------------------------
+# Create a function that generates a response based on users symptoms
+# --------------------------------------------------------------
 
 conversation_symptom_history = []
 def generate_symptom_info(symptoms):
@@ -46,7 +52,9 @@ def generate_symptom_info(symptoms):
 
     return chatbot_response
 
-
+# --------------------------------------------------------------
+# Create a function that generates a response based on users mental health questions
+# --------------------------------------------------------------
 
 MHS_conversation_history = []
 def generate_mental_health_conversaton(user_message):
