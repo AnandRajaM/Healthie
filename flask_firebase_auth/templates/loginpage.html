@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Healthie Authenticate </title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <div class="body">
+        
+    </div>
+    <!-- <span class="big-circle">
+        <span class="inner-circle"></span>
+    </span> -->
+    <!-- <img src="https://i.imgur.com/wcGWHvx.png" class="square" alt="" /> -->
+    
+
+    <script>
+      const container = document.getElementById('container');
+      const overlayCon = document.getElementById('overlayCon');
+      const overlayBtn = document.getElementById('overlayBtn');
+
+      overlayBtn.addEventListener('click', () => {
+        container.classList.toggle('right-panel-active');
+
+        overlayBtn.classList.remove('btnScaled');
+        window.requestAnimationFrame(() => {
+          overlayBtn.classList.add('btnScaled');
+        });
+      });
+
+    </script>
+</body>
+</html>
