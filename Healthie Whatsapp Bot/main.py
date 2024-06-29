@@ -71,124 +71,133 @@ class UserData(CallbackData): # Subclass CallbackData
 
 @wa.on_message()
 def message_handler(_: WhatsApp, msg: Message):
-    if msg.text.lower() in ["hi", "hello", "hey","go back","back","menu","home"]:
-        global bot_status
-        bot_status = "idle"
-        wa.send_image(
-            to=msg.from_user.wa_id,
-            image=r"Healthie Whatsapp Bot\images\mascot.png",
-            caption="Hello! 😊 Welcome to *Healthie*, your personal healthcare assistant. How can I assist you today? Whether you need medication reminders, want to schedule an appointment, or have any healthcare-related questions, I'm here to help! 🌟",
-            footer="Powered by a-squared⚡",
-            buttons=[
-                Button(
-                    title="Appointment",
-                    callback_data=UserData(id=1, name='Schedule', message="a"),
-                ),
-                Button(
-                    title="Reminders",
-                    callback_data=UserData(id=2, name='Reminders', message="a"),
-                ),
-                Button(
-                    title="Medical Query",
-                    callback_data=UserData(id=3, name='query', message="a"),
-                ),
-            ]
-        )
-    elif bot_status == "Chat":
-        response = gemini_service.generate_response(msg.text)
-        wa.send_text(
-            to=msg.from_user.wa_id,
-            text=response
-        )
-
-    elif bot_status == "Symptom Checker":
-        response = gemini_service.generate_symptom_info(msg.text)
-        wa.send_text(
-            to=msg.from_user.wa_id,
-            text=response
-        )
-        wa.send_text(
-            to=msg.from_user.wa_id,
-            text="If you missed any symptoms or wish to know more you may type your concerns below. \n \n To return to main menu type _*menu*_ "
-        )
-    
-    elif bot_status == "Mental Health Support":
-        response = gemini_service.generate_mental_health_conversaton(msg.text)
-        wa.send_text(
-            to=msg.from_user.wa_id,
-            text=response
-        )
-    
-    elif bot_status == "Nearby Hospitals":
-        hospital_info = serpapi_service.get_nearby(msg.text)
-        if hospital_info:
-            for hospital in hospital_info:
-                wa.send_image(
-                    to=msg.from_user.wa_id,
-                    image=hospital[2],
-                    caption=f"{hospital[0]} \n Phone: {hospital[1]} \n Location: {hospital[3]}",
-                    buttons=ButtonUrl(title='View in Map', url=f"https://maps.google.com/?q={hospital[3]['latitude']},{hospital[3]['longitude']}")
-                )
-        else:
-            wa.send_text(
+    print(msg.text)
+    if msg.text == None:
+        pass
+    else:
+        if msg.text.lower() in ["hi", "hello", "hey","go back","back","menu","home"]:
+            global bot_status
+            bot_status = "idle"
+            wa.send_image(
                 to=msg.from_user.wa_id,
-                text="Oops! No hospitals found nearby. Please try again later."
+                image=r"Healthie Whatsapp Bot\images\mascot.png",
+                caption="Hello! 😊 Welcome to *Healthie*, your personal healthcare assistant. How can I assist you today? Whether you need medication reminders, want to schedule an appointment, or have any healthcare-related questions, I'm here to help! 🌟",
+                footer="Powered by a-squared⚡",
+                buttons=[
+                    Button(
+                        title="Appointment",
+                        callback_data=UserData(id=1, name='Schedule', message="a"),
+                    ),
+                    Button(
+                        title="Reminders",
+                        callback_data=UserData(id=2, name='Reminders', message="a"),
+                    ),
+                    Button(
+                        title="Medical Query",
+                        callback_data=UserData(id=3, name='query', message="a"),
+                    ),
+                ]
             )
-        wa.send_text(
-            to=msg.from_user.wa_id,
-            text="To return to main menu type _*menu*_ "
-        )
-
-    elif bot_status == "Reminders":
-        global recived_time
-        if not recived_time:
-            global medication_name
-            medication_name = msg.text
-            recived_time = True
+        elif bot_status == "Chat":
+            response = gemini_service.generate_response(msg.text)
             wa.send_text(
                 to=msg.from_user.wa_id,
-                text="Please enter the time you would like to set the reminder for. For example, type '10:00 AM' or '2:00 PM'."
+                text=response
             )
-            
-        else:
-            global reminder_time
 
-            reminder_time = msg.text
-            if firestore_service.add_reminder(msg.from_user.wa_id,medication_name,reminder_time):
-                wa.send_text(
-                    to=msg.from_user.wa_id,
-                    text=f"Reminder set for {medication_name} at {reminder_time}."
-                )
-            else:
-                wa.send_text(
-                    to=msg.from_user.wa_id,
-                    text="Oops! Something went wrong. Please try again later."
-                )
-    
-    elif bot_status == "Schedule":
-        global schedule_time
-        if not schedule_time:
-            global doctor_name
-            doctor_name = msg.text
-            schedule_time = True
+        elif bot_status == "Symptom Checker":
+            response = gemini_service.generate_symptom_info(msg.text)
             wa.send_text(
                 to=msg.from_user.wa_id,
-                text="Please enter the date and time you would like to schedule the appointment for. For example, type 'Monday, 10:00 AM' or 'Friday, 2:00 PM'."
+                text=response
+            )
+            wa.send_text(
+                to=msg.from_user.wa_id,
+                text="If you missed any symptoms or wish to know more you may type your concerns below. \n \n To return to main menu type _*menu*_ "
             )
         
-        else:
-            global appointment_time
-            appointment_time = msg.text
-            if firestore_service.add_appointment(msg.from_user.wa_id,doctor_name,appointment_time):
-                wa.send_text(
-                    to=msg.from_user.wa_id,
-                    text=f"Appointment scheduled with {doctor_name} at {appointment_time}."
-                )
+        elif bot_status == "Mental Health Support":
+            response = gemini_service.generate_mental_health_conversaton(msg.text)
+            wa.send_text(
+                to=msg.from_user.wa_id,
+                text=response
+            )
+        
+        elif bot_status == "Nearby Hospitals":
+            hospital_info = serpapi_service.get_nearby(msg.text)
+            if hospital_info:
+                for hospital in hospital_info:
+                    bot_status = "idle"
+                    wa.send_image(
+                        to=msg.from_user.wa_id,
+                        image=hospital[2],
+                        caption=f"{hospital[0]} \n Phone: {hospital[1]} \n Location: {hospital[3]}",
+                        buttons=ButtonUrl(title='View in Map', url=f"https://maps.google.com/?q={hospital[3]['latitude']},{hospital[3]['longitude']}")
+                    )
             else:
                 wa.send_text(
                     to=msg.from_user.wa_id,
-                    text="Oops! Something went wrong. Please try again later."
+                    text="Oops! No hospitals found nearby. Please try again later."
                 )
+            wa.send_text(
+                to=msg.from_user.wa_id,
+                text="To return to main menu type _*menu*_ "
+            )
+
+        elif bot_status == "Reminders":
+            global recived_time
+            if not recived_time:
+                global medication_name
+                medication_name = msg.text
+                recived_time = True
+                wa.send_text(
+                    to=msg.from_user.wa_id,
+                    text="Please enter the time you would like to set the reminder for. For example, type '10:00 AM' or '2:00 PM'."
+                )
+                
+            else:
+                global reminder_time
+
+                reminder_time = msg.text
+                if firestore_service.add_reminder(msg.from_user.wa_id,medication_name,reminder_time):
+                    bot_status = "idle"
+                    wa.send_text(
+                        to=msg.from_user.wa_id,
+                        text=f"Reminder set for {medication_name} at {reminder_time}."
+                    )
+                else:
+                    bot_status = "idle"
+                    wa.send_text(
+                        to=msg.from_user.wa_id,
+                        text="Oops! Something went wrong. Please try again later."
+                    )
+        
+        elif bot_status == "Schedule":
+            global schedule_time
+            if not schedule_time:
+                global doctor_name
+                doctor_name = msg.text
+                schedule_time = True
+                wa.send_text(
+                    to=msg.from_user.wa_id,
+                    text="Please enter the date and time you would like to schedule the appointment for. For example, type 'Monday, 10:00 AM' or 'Friday, 2:00 PM'."
+                )
+            
+            else:
+                global appointment_time
+                appointment_time = msg.text
+                if firestore_service.add_appointment(msg.from_user.wa_id,doctor_name,appointment_time):
+                    bot_status = "idle"
+                    wa.send_text(
+                        to=msg.from_user.wa_id,
+                        text=f"Appointment scheduled with {doctor_name} at {appointment_time}."
+                    )
+                else:
+                    bot_status = "idle"
+                    wa.send_text(
+                        to=msg.from_user.wa_id,
+                        text="Oops! Something went wrong. Please try again later."
+                    )
 
 
 
