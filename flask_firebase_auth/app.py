@@ -51,7 +51,7 @@ def login():
 @app.route('/profile')
 def profile():
     if 'username' in session:
-        return render_template('report.html')
+        return render_template('home.html')
     return redirect(url_for('login'))
 
 @app.route('/logout')

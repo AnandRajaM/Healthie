@@ -83,3 +83,16 @@ header{
 .animate{
     height: 100vh;
 }
+
+.h1{
+    font-family: 'carmen';
+    font-size: 2.5rem;
+}
+
+.p{
+    font-family: 'varela round';
+}
+
+.heading{
+  font-family: 'carmen';
+}
