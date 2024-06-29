@@ -16,8 +16,6 @@ db = firestore.client()
 def home():
     return render_template('index.html')
 
-
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -32,7 +30,7 @@ def signup():
         db.collection("users").document().set(data)
         
         return redirect(url_for('login'))
-    return render_template('loginpage2.html')
+    return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -53,8 +51,7 @@ def login():
 @app.route('/profile')
 def profile():
     if 'username' in session:
-        username = session['username']
-        return f'Welcome {username}'
+        return render_template('report.html')
     return redirect(url_for('login'))
 
 @app.route('/logout')
