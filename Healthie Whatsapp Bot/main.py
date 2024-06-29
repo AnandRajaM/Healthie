@@ -47,8 +47,8 @@ wa = WhatsApp(
     phone_id=f"{PHONE_NUMBER_ID}",
     token=f"{ACCESS_TOKEN}",
     server=flask_app,
-    callback_url='https://xpctrt92-8000.inc1.devtunnels.ms',
-    verify_token="test123",
+    callback_url='',
+    verify_token="",
     app_id=APP_ID,
     app_secret=f"{APP_SECRET}",
 )
