@@ -47,8 +47,8 @@ wa = WhatsApp(
     phone_id=f"{PHONE_NUMBER_ID}",
     token=f"{ACCESS_TOKEN}",
     server=flask_app,
-    callback_url='https://xpctrt92-8000.inc1.devtunnels.ms',
-    verify_token="test123",
+    callback_url='', # add your callback url here 
+    verify_token="", # add your verify token here
     app_id=APP_ID,
     app_secret=f"{APP_SECRET}",
 )
@@ -211,6 +211,7 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
     global bot_status
     if bot_status == "idle":
         if btn.data.id == 3:
+            print("query selcted")
             wa.send_message(
                 to=btn.from_user.wa_id,
                 header='How can I help you today?',
@@ -254,6 +255,7 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
             )
         
         if btn.data.id == 2:
+            print("reminder selcted")
             bot_status = btn.data.name
             client.send_text(
                 to=btn.from_user.wa_id,
@@ -270,6 +272,7 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
                 ]
             )
         if btn.data.id == 1:
+            print("schedule selcted")
             bot_status = btn.data.name
             client.send_text(
                 to=btn.from_user.wa_id,
@@ -333,6 +336,7 @@ def on_user_data(client: WhatsApp, btn: CallbackButton[UserData]): # For autocom
 @wa.on_callback_selection(factory=UserData)
 def on_user_data(_: WhatsApp, sel: CallbackSelection[UserData]):
     if sel.data.name == 'chat':
+        print("chat selected")
         global bot_status
         bot_status = "Chat"
         wa.send_image(
@@ -341,7 +345,7 @@ def on_user_data(_: WhatsApp, sel: CallbackSelection[UserData]):
             caption="You are now chatting with Healthie. Feel free to ask any health-related questions or share your concerns. I'm here to help! 🩺 \n \n To return to main menu type _*menu*_"
         )
     if sel.data.name == 'symptom_checker':
-        
+        print("symptom checker selected")
         bot_status = "Symptom Checker"
         wa.send_image(
             to=sel.from_user.wa_id,
@@ -351,6 +355,7 @@ def on_user_data(_: WhatsApp, sel: CallbackSelection[UserData]):
         
 
     if sel.data.name == 'mental_health_support':
+        print("mental health selected")
         bot_status = "Mental Health Support"
         wa.send_image(
             to=sel.from_user.wa_id,
@@ -360,6 +365,7 @@ def on_user_data(_: WhatsApp, sel: CallbackSelection[UserData]):
         
     
     if sel.data.name == 'nearby_hospitals':
+        print("nearby hospitals selected")
         bot_status = "Nearby Hospitals"
         wa.send_image(
             to=sel.from_user.wa_id,
@@ -369,6 +375,7 @@ def on_user_data(_: WhatsApp, sel: CallbackSelection[UserData]):
     
     
     if sel.data.name == 'pdf_generation':
+        print("pdf generation selected")
         bot_status = "idle"
         wa.send_document(
             to=sel.from_user.wa_id,

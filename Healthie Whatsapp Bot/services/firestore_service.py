@@ -7,7 +7,7 @@ import pytz
 # ----------------------------------------
 # Initialize Firestore DB
 # ----------------------------------------
-cred = credentials.Certificate(r"D:\dev\healthie-648dd-firebase-adminsdk-vewrw-276a6a08fb.json")   #i sent the admin fle in zip
+cred = credentials.Certificate(r"")   #Add the path to your firebase credentials json file
 firebase_admin.initialize_app(cred)
 
 # ----------------------------------------

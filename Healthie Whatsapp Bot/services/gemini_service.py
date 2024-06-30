@@ -1,7 +1,7 @@
 import google.generativeai as genai
 
 
-genai.configure(api_key = "")
+genai.configure(api_key = "") # Add your API key here
 model = genai.GenerativeModel('gemini-pro')
 
 
@@ -11,6 +11,7 @@ model = genai.GenerativeModel('gemini-pro')
 
 conversation_history = []
 def generate_response(user_message):  
+    print(user_message+"dfasdfsd")
     conversation_history.append(f"Patient: {user_message}")
     if len(conversation_history) > 10:  # Limit the history to the last 10 messages
         conversation_history.pop(0)  # Remove the oldest message if history exceeds limit

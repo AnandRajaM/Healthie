@@ -10,7 +10,6 @@ geolocator = Nominatim(user_agent="my_user_agent")
 # --------------------------------------------------------------
 
 def get_nearby(location):
-
     loc = geolocator.geocode(location)
     print(loc)
     params = {
@@ -18,7 +17,7 @@ def get_nearby(location):
     "q": "Hospital",
     "ll": f"@{loc.latitude},{loc.longitude},15z",
     "type": "search",
-    "api_key": ""
+    "api_key": "" # Add your API key here
     }
 
     search = GoogleSearch(params)
@@ -32,4 +31,6 @@ def get_nearby(location):
             pass
 
     return hospital_info[0:5]
+
+print(get_nearby("New York"))
 
