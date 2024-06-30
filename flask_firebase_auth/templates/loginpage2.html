@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <title>Healthie</title>
+</head>
+<body>
+    
+    <div class="body">
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <form action="/signup" method="POST">
+                    <h1>Create Account</h1>
+                    <span>Sign Up and become <strong>Healthie</strong> 💪</span>
+                    <br>
+    
+                    <div class="infield">
+                        <label for="username"></label>
+                        <input type="text" id="username" name="username" placeholder = "Enter your Username" required>
+                    </div>
+                    <div class="infield">
+                        <label for="password"></label>
+                        <input type="password" id="password" name="password" placeholder = "Enter Password" required>
+                    </div>
+    
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in-container">
+                <form action="/login" method = "POST">
+                    <h1>Sign in</h1>
+                    <div class="infield">
+                        <label for="username"></label>
+                        <input type="text" id="username" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="infield">
+                        <label for="password"></label>
+                        <input type="password" id="password" placeholder="Password" name="password" required>
+                    </div>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="overlay-container" id="overlayCon">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login with your personal info</p>
+                        <button>Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, Friend!</h1>
+                        <p>Enter your Details and start Healthie journey with us</p>
+                        <button id="signUpBtn">Sign Up</button>                
+                    </div>
+                </div>
+                <button id="overlayBtn"></button>
+            </div>
+        </div>
+    </div>
+    <!-- <span class="big-circle">
+        <span class="inner-circle"></span>
+    </span> -->
+    <!-- <img src="https://i.imgur.com/wcGWHvx.png" class="square" alt="" /> -->
+    
+
+    <script>
+      const container = document.getElementById('container');
+      const overlayCon = document.getElementById('overlayCon');
+      const overlayBtn = document.getElementById('overlayBtn');
+
+      overlayBtn.addEventListener('click', () => {
+        container.classList.toggle('right-panel-active');
+
+        overlayBtn.classList.remove('btnScaled');
+        window.requestAnimationFrame(() => {
+          overlayBtn.classList.add('btnScaled');
+        });
+      });
+
+    </script>
+    
+</body>
+</html>
