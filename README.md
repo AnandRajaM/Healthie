@@ -19,11 +19,11 @@ Healthie, developed by a² Team for the Prasunethon Hackathon, features a custom
 https://github.com/AnandRajaM/Healthie/assets/142321494/a9e1937a-ddd1-41d2-8360-e6978d70703f
 
 ## Screenshots
-![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page.png)
-![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page2.png)
-![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page3.png)
-![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/img.png)
-![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/img1.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme%20imgs/page.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme%20imgs/page2.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme%20imgs/page3.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme%20imgs/img.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme%20imgs/img1.png)
 ## Technologies Used
 ### Frontend
 - HTML
