@@ -1,4 +1,4 @@
-![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/logo.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme%20imgs/logo.png)
 
 
 ## Overview
