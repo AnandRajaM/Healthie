@@ -15,6 +15,11 @@ Healthie, developed by a² Team for the Prasunethon Hackathon, features a custom
 - Mental Health Support: Includes resources and guidance for mental health management, promoting holistic well-being.
 - PDF Generation: Generates detailed PDF reports summarizing medical queries and health records for easy sharing and archival.
 ## Video's and Screenshots
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page2.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page3.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/img.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/img1.png)
 ## Technologies Used
 ### Frontend
 - HTML
