@@ -16,10 +16,10 @@ Healthie, developed by a² Team for the Prasunethon Hackathon, features a custom
 - PDF Generation: Generates detailed PDF reports summarizing medical queries and health records for easy sharing and archival.
 ## Video's and Screenshots
 ![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page.png)
-![App Screenshot]([https://github.com/AnandRajaM/tinkerquest2024/blob/main/images/website_landing.png](https://github.com/AnandRajaM/Healthie/blob/main/readme/page2.png))
-![App Screenshot]([https://github.com/AnandRajaM/tinkerquest2024/blob/main/images/website_landing.png](https://github.com/AnandRajaM/Healthie/blob/main/readme/page3.png))
-![App Screenshot]([https://github.com/AnandRajaM/tinkerquest2024/blob/main/images/website_landing.png](https://github.com/AnandRajaM/Healthie/blob/main/readme/img.png))
-![App Screenshot]([https://github.com/AnandRajaM/tinkerquest2024/blob/main/images/website_landing.png](https://github.com/AnandRajaM/Healthie/blob/main/readme/img1.png))
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page2.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page3.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/img.png)
+![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/img1.png)
 ## Technologies Used
 ### Frontend
 - HTML
