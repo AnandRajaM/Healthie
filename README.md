@@ -14,7 +14,11 @@ Healthie, developed by a² Team for the Prasunethon Hackathon, features a custom
 - Health Records Management: Utilizes Firestore from Firebase to securely store and manage user health records, ensuring accessibility and confidentiality.
 - Mental Health Support: Includes resources and guidance for mental health management, promoting holistic well-being.
 - PDF Generation: Generates detailed PDF reports summarizing medical queries and health records for easy sharing and archival.
-## Video's and Screenshots
+
+## Watch our Project Video
+https://github.com/AnandRajaM/Healthie/assets/142321494/a9e1937a-ddd1-41d2-8360-e6978d70703f
+
+## Screenshots
 ![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page.png)
 ![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page2.png)
 ![App Screenshot](https://raw.githubusercontent.com/AnandRajaM/Healthie/main/readme/page3.png)
