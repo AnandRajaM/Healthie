@@ -2,7 +2,7 @@
 
 
 ## Overview
-Healthie, developed by a² Team for the Prasunethon Hackathon, features a custom WhatsApp bot and web platform designed to provide easy-to-use healthcare services. It includes tools like symptom checking, appointment reminders, and personalized health advice, aiming to simplify healthcare management for users.
+Healthie, developed by the a² Team for the Prasunethon Hackathon, represents a cutting-edge healthcare assistant, integrating advanced technologies into a custom WhatsApp bot and a sophisticated web platform. Our solution is meticulously designed to enhance healthcare management with a suite of features including an intelligent symptom checker, timely appointment reminders, and tailored health advice. By leveraging the latest in machine learning and artificial intelligence, Healthie provides users with reliable, personalized healthcare insights and support. Our professional approach ensures a seamless, user-friendly experience, making Healthie an indispensable tool for modern healthcare management.
 
 ## Key Features
 - Symptom Checker: Enables users to input symptoms and receive accurate health assessments and initial recommendations.
